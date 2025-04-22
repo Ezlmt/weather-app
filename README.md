@@ -1,46 +1,131 @@
-# Getting Started with Create React App
+# Weather Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
+This project is a comprehensive weather application that fulfills both Technical Assessment 1 and Technical Assessment 2 requirements. The application provides real-time weather information, forecasts, and allows users to manage weather records through a database.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Tech Assessment 1 ✅
+- **Location Input**
+  - Support multiple location formats:
+    - City name
+    - ZIP/Postal code
+    - GPS coordinates
+  - Current location detection using browser geolocation
+- **Weather Display**
+  - Current temperature
+  - Humidity
+  - Weather description
+  - Real-time data from OpenWeatherMap API
+- **5-Day Forecast**
+  - Daily temperature forecasts
+  - Weather conditions
+  - Humidity levels
+- **Responsive Design**
+  - Clean and intuitive interface
+  - Mobile-friendly layout
 
-### `npm start`
+### Tech Assessment 2 ✅
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 2.1 CRUD Operations
+- **Create** ✅
+  - Add weather records with date, temperature, and humidity
+  - Input validation for dates and locations
+  - Data persistence in database
+- **Read** ✅
+  - View all stored weather records
+  - Historical weather data access
+- **Update** ✅
+  - Modify existing weather records
+  - Validation for updated data
+- **Delete** ✅
+  - Remove weather records from database
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### 2.2 Data Export ✅
+- Export weather records in multiple formats:
+  - JSON format
+  - CSV format
 
-### `npm test`
+## Technical Stack
+- **Frontend**
+  - React
+  - TypeScript
+  - TailwindCSS
+- **API Integration**
+  - OpenWeatherMap API
+- **State Management**
+  - React Query
+  - React Hooks
+- **Database**
+  - Local storage with IndexedDB
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- OpenWeatherMap API key
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
+1. Clone the repository
+```bash
+git clone [repository-url]
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
+```
+REACT_APP_WEATHER_API_KEY=your_api_key_here
+```
 
-### `npm run eject`
+4. Start the development server
+```bash
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Development Log
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### [UTC: 2024-01-17T12:00:00Z]
+- Initial project setup
+- Implemented basic weather search functionality
+- Added current location detection
+- Integrated OpenWeatherMap API
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### [UTC: 2024-01-17T14:00:00Z]
+- Added 5-day forecast feature
+- Implemented weather records CRUD operations
+- Added data export functionality (JSON, CSV)
+- Completed responsive design implementation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Testing Checklist
+- [x] Location search functionality
+- [x] Current location detection
+- [x] Weather data display
+- [x] 5-day forecast display
+- [x] Weather records creation
+- [x] Weather records viewing
+- [x] Weather records updating
+- [x] Weather records deletion
+- [x] Data export - JSON format
+- [x] Data export - CSV format
+- [x] Responsive design
+- [x] Error handling
+- [x] Input validation
 
-## Learn More
+## Future Enhancements
+1. Integration with additional APIs (Google Maps, YouTube)
+2. More export formats (PDF, XML, Markdown)
+3. User authentication and personalized weather tracking
+4. Weather alerts and notifications
+5. Historical weather data visualization
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
+MIT License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Acknowledgments
+- OpenWeatherMap API for weather data
+- React community for excellent tools and libraries 
