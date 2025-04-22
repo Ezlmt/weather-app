@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import WeatherDisplay from './components/WeatherDisplay';
 import ForecastDisplay from './components/ForecastDisplay';
+import WeatherRecords from './components/WeatherRecords';
 import {
   getCurrentWeather,
   getForecast,
@@ -26,7 +27,7 @@ const App: React.FC = () => {
       setError(null);
       setWeather(null);
       setForecast(null);
-      
+
       if (!location.trim()) {
         throw new Error('Please enter a location');
       }
@@ -102,7 +103,7 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-gray-100 py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-center mb-8">Weather App</h1>
-          
+
           <div className="mb-8">
             <form onSubmit={handleLocationSearch} className="flex gap-4">
               <input
@@ -115,9 +116,8 @@ const App: React.FC = () => {
               />
               <button
                 type="submit"
-                className={`px-4 py-2 rounded text-white ${
-                  loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
-                }`}
+                className={`px-4 py-2 rounded text-white ${loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
+                  }`}
                 disabled={loading}
               >
                 {loading ? 'Searching...' : 'Search'}
@@ -125,9 +125,8 @@ const App: React.FC = () => {
               <button
                 type="button"
                 onClick={getCurrentLocation}
-                className={`px-4 py-2 rounded text-white ${
-                  loading ? 'bg-green-300' : 'bg-green-500 hover:bg-green-600'
-                }`}
+                className={`px-4 py-2 rounded text-white ${loading ? 'bg-green-300' : 'bg-green-500 hover:bg-green-600'
+                  }`}
                 disabled={loading}
               >
                 {loading ? 'Locating...' : 'Use My Location'}
@@ -149,6 +148,8 @@ const App: React.FC = () => {
 
           {weather && <WeatherDisplay weather={weather} />}
           {forecast && <ForecastDisplay forecast={forecast} />}
+
+          <WeatherRecords />
         </div>
       </div>
     </QueryClientProvider>

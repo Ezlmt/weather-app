@@ -1,0 +1,3 @@
+[33m1899d36[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Update weather service with improved error handling and add API debugging
+[33me50d519[m Initial commit: Weather app implementation
+[33md8ccc67[m Initialize project using Create React App
