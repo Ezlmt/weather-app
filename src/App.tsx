@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import WeatherDisplay from './components/WeatherDisplay';
 import ForecastDisplay from './components/ForecastDisplay';
@@ -24,6 +24,13 @@ const App: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
+      setWeather(null);
+      setForecast(null);
+      
+      if (!location.trim()) {
+        throw new Error('Please enter a location');
+      }
+
       const [weatherData, forecastData] = await Promise.all([
         getCurrentWeather(location),
         getForecast(location),
@@ -31,7 +38,12 @@ const App: React.FC = () => {
       setWeather(weatherData);
       setForecast(forecastData);
     } catch (err) {
-      setError('Failed to fetch weather data. Please try again.');
+      console.error('Error fetching weather:', err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to fetch weather data. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -39,37 +51,50 @@ const App: React.FC = () => {
 
   const handleLocationSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (location.trim()) {
-      fetchWeather(location.trim());
-    }
+    fetchWeather(location.trim());
   };
 
   const getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            setLoading(true);
-            setError(null);
-            const [weatherData, forecastData] = await Promise.all([
-              getWeatherByCoordinates(position.coords.latitude, position.coords.longitude),
-              getForecastByCoordinates(position.coords.latitude, position.coords.longitude),
-            ]);
-            setWeather(weatherData);
-            setForecast(forecastData);
-          } catch (err) {
-            setError('Failed to fetch weather data. Please try again.');
-          } finally {
-            setLoading(false);
-          }
-        },
-        () => {
-          setError('Unable to retrieve your location');
-        }
-      );
-    } else {
+    if (!navigator.geolocation) {
       setError('Geolocation is not supported by your browser');
+      return;
     }
+
+    setLoading(true);
+    setError(null);
+    setWeather(null);
+    setForecast(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const [weatherData, forecastData] = await Promise.all([
+            getWeatherByCoordinates(position.coords.latitude, position.coords.longitude),
+            getForecastByCoordinates(position.coords.latitude, position.coords.longitude),
+          ]);
+          setWeather(weatherData);
+          setForecast(forecastData);
+        } catch (err) {
+          console.error('Error fetching weather:', err);
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError('Failed to fetch weather data. Please try again.');
+          }
+        } finally {
+          setLoading(false);
+        }
+      },
+      (err) => {
+        console.error('Geolocation error:', err);
+        setError('Unable to retrieve your location. Please check your browser settings.');
+        setLoading(false);
+      },
+      {
+        timeout: 10000,
+        enableHighAccuracy: true,
+      }
+    );
   };
 
   return (
@@ -86,19 +111,26 @@ const App: React.FC = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Enter location (city, zip code, etc.)"
                 className="flex-1 p-2 border rounded"
+                disabled={loading}
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                className={`px-4 py-2 rounded text-white ${
+                  loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+                disabled={loading}
               >
-                Search
+                {loading ? 'Searching...' : 'Search'}
               </button>
               <button
                 type="button"
                 onClick={getCurrentLocation}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                className={`px-4 py-2 rounded text-white ${
+                  loading ? 'bg-green-300' : 'bg-green-500 hover:bg-green-600'
+                }`}
+                disabled={loading}
               >
-                Use My Location
+                {loading ? 'Locating...' : 'Use My Location'}
               </button>
             </form>
           </div>
@@ -110,8 +142,8 @@ const App: React.FC = () => {
           )}
 
           {loading && (
-            <div className="text-center">
-              <p>Loading...</p>
+            <div className="text-center py-8">
+              <p className="text-gray-600">Loading weather data...</p>
             </div>
           )}
 
